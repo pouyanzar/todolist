@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import Todo from './Todo'
 import CreateTodo from './CreateTodo'
 
+
 //This component displays todo items 
 class TodoList extends Component{
     constructor(props){
@@ -42,13 +43,16 @@ class TodoList extends Component{
            this.setState({todos: todos})
        }
 
+      
+
     render(){
         return(
 
             /*Passing all the todo items and deleteHandler function 
                 as props to its child Todo component */
             <div>
-                <CreateTodo createTodo={this.createTodo}/>
+                <CreateTodo createTodo={this.createTodo} 
+                            hidder={this.state.hidder}/>
                 {this.state.todos.map(
                     item => <Todo todo={item}
                                 key={item.index} 

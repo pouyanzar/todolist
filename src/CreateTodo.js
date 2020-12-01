@@ -33,9 +33,11 @@ class CreateTodo extends Component {
             
             alert("Please enter a task");
             
-        } 
-            
+        }  
     }
+
+      
+
     render() {
         return (
             <Container className="mt-5">
@@ -51,7 +53,8 @@ class CreateTodo extends Component {
                                         onChange={this.changeHandler}/>
                         </Col>
                         <Col xl={2} lg={2} md={3} sm={3} xs={12}  align="left" className="col-addItem">
-                            <Button type="submit" variant="success">Add Item</Button>
+                            <Button type="submit" 
+                                    variant="success">Add Item</Button>
                         </Col>
                     </Form.Row>
                 </Form>
