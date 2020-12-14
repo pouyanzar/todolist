@@ -1,67 +1,46 @@
-import React,{Component} from 'react'
+import React,{useState} from 'react'
 import Todo from './Todo'
 import CreateTodo from './CreateTodo'
 
 
 //This component displays todo items 
-class TodoList extends Component{
-    constructor(props){
-        super(props)
-    //the state stores todo items
-    this.state = {
-                    todos:[],
-                 }
-            this.deleteHandler = this.deleteHandler.bind(this)
-            this.createTodo = this.createTodo.bind(this)
-            this.editHandler = this.editHandler.bind(this)
-    }
+export default function TodoList (){
+    
+    const [todos, setTodos] = useState([])
 
     /* define deleteHandler function to delete items from state
         by filtering item's id*/
-        deleteHandler = (id) => {
-            const todos = this.state.todos.filter(todo => todo.id !== id)
-            this.setState({todos:todos}) 
-        }
-        
-        
-        
+    const deleteHandler = (id) => {
+        setTodos(todos.filter(todo => todo.id !== id)) 
+    }
+             
     /* This function pushes new todo items to state.
         id defined to be the length of state + 1 */
-       createTodo = (desc) => {
-           const todos = this.state.todos
-           const id = todos.length+1
-           this.desc = desc
-           todos.push({id:id, desc:desc})
-           this.setState({todos:todos})
-       } 
+    const createTodo = (desc) => {
+        const id = todos.length+1
+        setTodos([...todos,{id:id, desc:desc}])
+    } 
 
-       editHandler = (id,desc) => {
-           const todos = [...this.state.todos]
+    const editHandler = (id,desc) => {
            const todo = todos.findIndex((todo) => todo.id === id)
-           console.log(todos[todo])
            todos[todo] = {...todos[todo], desc: desc}
-           this.setState({todos: todos})
-       }
+           setTodos([...todos])
+    }
 
-      
-
-    render(){
         return(
 
             /*Passing all the todo items and deleteHandler function 
                 as props to its child Todo component */
             <div>
-                <CreateTodo createTodo={this.createTodo} 
-                            hidder={this.state.hidder}/>
-                {this.state.todos.map(
-                    item => <Todo todo={item}
-                                key={item.index} 
-                                deleteHandler={this.deleteHandler}
-                                editHandler={this.editHandler}
+                <CreateTodo createTodo={createTodo} />
+                {todos.map(
+                    item => <Todo 
+                                key={item.id} 
+                                todo={item}
+                                deleteHandler={deleteHandler}
+                                editHandler={editHandler}
                                 />
                 )}     
             </div>
         )
     }
-}
-export default TodoList;

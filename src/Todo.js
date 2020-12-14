@@ -1,43 +1,32 @@
-import React,{Component} from 'react'
+import React,{useState} from 'react'
 import {Card, Form, Image, Button, Col, Row} from 'react-bootstrap'
 /*This component create individual todo item from the props coming
  from its parent, TodoList component*/
-class Todo extends Component{
+export default function Todo ({todo, editHandler, deleteHandler}){
 
-    constructor(props){
-        super(props)
-        this.state={
-            toggle: false,
-            value: this.props.todo.desc,
-            cardClicked: false,
-        }
+    const [toggle,setToggle] = useState(false);
+    const [value, setValue] = useState(todo.desc);
+    const [cardClicked, setCardClicked] = useState(false);
+    
 
-        this.submitHandler = this.submitHandler.bind(this)
-        this.changeHandler = this.changeHandler.bind(this)
-        this.toggleForm = this.toggleForm.bind(this)
-        this.done = this.done.bind(this)        
-    } 
-
-    submitHandler = (e) => {
+    const submitHandler = (e) => {
         e.preventDefault();
-        this.props.editHandler(this.props.todo.id,this.state.value)
-        this.setState({toggle: false})
+        editHandler(todo.id,value)
+        setToggle(false)
     }
-    changeHandler = (e) => {
-        this.setState({value:e.target.value})
-    }
-
-    toggleForm = () => {
-        this.setState({toggle:!this.state.toggle, value: this.state.value})
+    const changeHandler = (e) => {
+        setValue(e.target.value)
     }
 
-    done = () => {
-        this.setState({cardClicked: !this.state.cardClicked})
+    const toggleForm = () => {
+        setToggle(!toggle)
+        setValue(value)
+    }
+
+    const done = () => {
+        setCardClicked(!cardClicked)
     }
     
-    render(){
-        const todo = this.props.todo
-        const deleteHandler = this.props.deleteHandler
 
         return(
             /* Building individual todo item and assigning the values 
@@ -46,30 +35,30 @@ class Todo extends Component{
                 <Card.Body>
                     <Row>
                         <Col align="left">
-                            <Card.Title style={{textDecoration: this.state.cardClicked?
+                            <Card.Title style={{textDecoration: cardClicked?
                                                 "line-through" :
                                                 "none"}}>
-                            <Image onClick={this.done}
-                                   src={this.state.cardClicked?
+                            <Image onClick={done}
+                                   src={cardClicked?
                                         "https://img.icons8.com/doodle/20/000000/checkmark.png":
                                         "https://img.icons8.com/color/20/000000/circled.png"}
                                     className="m-1"/>
                             {todo.desc}
                             
                         </Card.Title>
-                            <Form className={this.state.toggle? "d-block" : "d-none"}
-                                onSubmit={this.submitHandler}>
+                            <Form className={toggle? "d-block" : "d-none"}
+                                onSubmit={submitHandler}>
                                 <Form.Row align="center">
                                     <Col xl={10} lg={10} md={10} sm={10}>
                                         <Form.Control type="text" 
-                                                    value={this.state.value} 
-                                                    onChange={this.changeHandler}/>
+                                                    value={value} 
+                                                    onChange={changeHandler}/>
                                     </Col>
                                     <Col xl={2} lg={2} md={2} sm={2} xs={12}>
                                         <Button className="todo__form--submit"
                                                 type="submit"
                                                 variant="success"
-                                                onClick={this.toggleForm}>Change</Button>
+                                                onClick={() => toggleForm()}>Change</Button>
                                     </Col>
                                 </Form.Row>       
                             </Form>
@@ -80,7 +69,7 @@ class Todo extends Component{
                             
                             */}
                             
-                            <Image onClick={() => this.toggleForm()}
+                            <Image onClick={() => toggleForm()}
                             src="https://img.icons8.com/cotton/24/000000/edit--v1.png" />
 
                             {/* add deleteHandler to button to delete item 
@@ -94,7 +83,6 @@ class Todo extends Component{
                 </Card.Body>            
             </Card>
         )
-    }
+    
 }
 
-export default Todo;
