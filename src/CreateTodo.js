@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {Button, Image, Form, Col, Container} from 'react-bootstrap'
 
-export default function CreateTodo({createTodo}) {
+export default function CreateTodo({createTodo, hideAlert}) {
 
     const [className, setClassName] = useState('d-none');
     const [value, setValue] = useState('');
@@ -33,7 +33,9 @@ export default function CreateTodo({createTodo}) {
         return (
             <Container className="mt-5">
                     <Image src="https://img.icons8.com/cute-clipart/64/000000/plus.png"
-                        onClick={() => showTodo()}/>
+                        onClick={() => {showTodo()
+                                        hideAlert()
+                                    }}/>
                 <Form size='sm' 
                     className={`${className} mt-3`}
                     onSubmit={submitHandler}>

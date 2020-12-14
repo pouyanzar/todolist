@@ -27,7 +27,6 @@ export default function Todo ({todo, editHandler, deleteHandler}){
         setCardClicked(!cardClicked)
     }
     
-
         return(
             /* Building individual todo item and assigning the values 
             based on props */
